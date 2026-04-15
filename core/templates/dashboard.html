@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Devices</h2>
+
+<table class="table">
+    <tr>
+        <th>Nome</th>
+        <th>Status</th>
+    </tr>
+
+    {% for d in devices %}
+    <tr>
+        <td>{{ d.nome }}</td>
+        <td>
+            {% if d.status %}
+                <span class="badge bg-success">Conectado</span>
+            {% else %}
+                <span class="badge bg-danger">Desconectado</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
