@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from .models import Device, Usuario, Movimentacao
+from .models import Sala,Device, Usuario, Movimentacao
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -15,7 +15,17 @@ def criar_algo(request):
 @login_required
 def dashboard(request):
     devices = Device.objects.all()
-    return render(request, 'dashboard.html', {'devices': devices})
+    total_salas = Sala.objects.count()
+    total_devices = Device.objects.count()
+    ok = Device.objects.filter(carregando=True).count()
+    erro = Device.objects.filter(carregando=False).count()
+
+    return render(request, 'dashboard.html', {
+        'total_salas': total_salas,
+        'total_devices': total_devices,
+        'ok': ok,
+        'erro': erro
+    })
 
 
 @login_required
@@ -43,3 +53,14 @@ def login_view(request):
             messages.error(request, "Usuário ou senha inválidos")
 
     return render(request, 'login.html')
+
+@login_required
+def lista_salas(request):
+    salas = Sala.objects.all()
+    return render(request, 'salas.html', {'salas': salas})
+
+
+@login_required
+def devices_sala(request, id):
+    devices = Device.objects.filter(sala_id=id)
+    return render(request, 'devices.html', {'devices': devices})

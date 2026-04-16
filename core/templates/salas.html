@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Salas</h2>
+
+{% for sala in salas %}
+<div class="card">
+    <h3>{{ sala.nome }}</h3>
+    <a href="/app/salas/{{ sala.id }}/" class="btn-custom">Ver Devices</a>
+</div>
+{% endfor %}
+
+{% endblock %}

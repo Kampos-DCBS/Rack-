@@ -2,26 +2,19 @@
 
 {% block content %}
 
-<h2>Devices</h2>
+<h2>Dashboard</h2>
 
-<table class="table">
-    <tr>
-        <th>Nome</th>
-        <th>Status</th>
-    </tr>
+<div class="card">
+    <h3>Total de Salas: {{ total_salas }}</h3>
+</div>
 
-    {% for d in devices %}
-    <tr>
-        <td>{{ d.nome }}</td>
-        <td>
-            {% if d.status %}
-                <span class="badge bg-success">Conectado</span>
-            {% else %}
-                <span class="badge bg-danger">Desconectado</span>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="card">
+    <h3>Total de Devices: {{ total_devices }}</h3>
+</div>
+
+<div class="card">
+    <h3>Devices OK: <span class="status-ok">{{ ok }}</span></h3>
+    <h3>Devices com Problema: <span class="status-erro">{{ erro }}</span></h3>
+</div>
 
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,4 +11,7 @@ urlpatterns = [
     path('app/', include('core.urls')),
     path('app/', include('core.urls')),
     path('api/', include('core.api_urls')),
+    path('', views.dashboard, name='dashboard'),
+    path('salas/', views.lista_salas, name='salas'),
+    path('salas/<int:id>/', views.devices_sala, name='devices'),
 ]

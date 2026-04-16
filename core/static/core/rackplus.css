@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+}
+
+/* NAVBAR */
+.navbar {
+    background-color: #1f3a5f;
+    padding: 15px;
+}
+
+.navbar a {
+    color: white;
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* CONTAINER */
+.container {
+    padding: 30px;
+}
+
+/* CARDS */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* STATUS */
+.status-ok {
+    color: green;
+    font-weight: bold;
+}
+
+.status-erro {
+    color: red;
+    font-weight: bold;
+}
+
+/* BOTÕES */
+.btn-custom {
+    background-color: #3b6edc;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+}
+
+.btn-custom:hover {
+    background-color: #2f5ac4;
+}
