@@ -56,8 +56,8 @@ def login_view(request):
 
 @login_required
 def lista_salas(request):
-    salas = Sala.objects.all()
-    return render(request, 'salas.html', {'salas': salas})
+    homepage = Sala.objects.all()
+    return render(request, 'homepage.html', {'homepage': homepage})
 
 
 @login_required

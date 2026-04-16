@@ -1,26 +1,32 @@
 from django.db import models
 
+armazenamento = models.CharField(max_length=100, default="Não informado")
 
-# 📦 SALA (Rack físico onde ficam os devices)
+# 📦 SALA
 class Sala(models.Model):
     nome = models.CharField(max_length=100)
+    professor = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nome
+        return f"{self.nome} - {self.professor}"
 
 
-# 💻 DEVICE (Notebook)
+# 💻 DEVICE
 class Device(models.Model):
     nome = models.CharField(max_length=100)
     sala = models.ForeignKey(Sala, on_delete=models.CASCADE, related_name='devices')
+    
+    processador = models.CharField(max_length=100)
+    armazenamento = models.CharField(max_length=100)
+
     carregando = models.BooleanField(default=False)
-    presente = models.BooleanField(default=True)  # Está no rack ou não
+    presente = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.nome
+        return f"{self.nome} ({self.sala.nome})"
 
 
-# 👤 USUÁRIO (quem usa o device)
+# 👤 USUÁRIO
 class Usuario(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField()
@@ -29,7 +35,7 @@ class Usuario(models.Model):
         return self.nome
 
 
-# 🔄 MOVIMENTAÇÃO (log de uso dos devices)
+# 🔄 MOVIMENTAÇÃO
 class Movimentacao(models.Model):
     TIPOS = (
         ('retirada', 'Retirada'),
