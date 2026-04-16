@@ -1,14 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
-from core.views import login_view
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # LOGIN (página inicial)
-    path('', login_view, name='login'),
+    # LOGIN / LOGOUT
+    path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
-    # APP protegida
+    # APP
     path('app/', include('core.urls')),
 
     # API
