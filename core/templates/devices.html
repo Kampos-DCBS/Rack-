@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div class="header-left">
+
+        <a href="{% url 'racks' rack.sala.id %}" class="back-button">
+            ←
+        </a>
+
+        <h2 class="page-title">
+            Devices <span>{{ rack.nome }}</span>
+        </h2>
+
+    </div>
+
+    <form method="GET" class="search-box">
+        <img src="{% static 'core/imgs/icon-lupa.png' %}">
+        <input type="text" name="q" placeholder="BUSCAR DEVICE..." value="{{ request.GET.q }}">
+    </form>
+
+</div>
+
+<div class="grid">
+    {% for device in devices %}
+    <a href="/nao-existe/" class="card">
+        <div class="card-top">
+            <img src="{% static 'core/imgs/devices.png' %}">
+
+            {% if device.carregando %}
+                <div class="status-dot status-ok"></div>
+            {% else %}
+                <div class="status-dot status-erro"></div>
+            {% endif %}
+
+            <div class="card-overlay">
+                {{ device.nome }}
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

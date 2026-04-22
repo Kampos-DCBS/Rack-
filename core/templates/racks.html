@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div class="header-left">
+
+        <a href="{% url 'homepage' %}" class="back-button">
+            ←
+        </a>
+
+        <h2 class="page-title">
+            Sala {{ sala.nome }}
+        </h2>
+
+    </div>
+
+    <form method="GET" class="search-box">
+        <img src="{% static 'core/imgs/icon-lupa.png' %}">
+        <input type="text" name="q" placeholder="BUSCAR RACK..." value="{{ request.GET.q }}">
+    </form>
+
+</div>
+
+<div class="grid grid-racks">
+    {% for rack in racks %}
+    <a href="{% url 'devices' rack.id %}" class="card">
+
+        <div class="card-top">
+            <img src="{% static 'core/imgs/racks.png' %}">
+
+            <!-- STATUS -->
+            {% if rack.tem_erro %}
+                <div class="status-dot status-erro"></div>
+            {% else %}
+                <div class="status-dot status-ok"></div>
+            {% endif %}
+
+            <!-- NOME -->
+            <div class="card-overlay">
+                {{ rack.nome }}
+            </div>
+        </div>
+
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2 class="page-title">Dashboard</h2>
+</div>
+
+<div class="dashboard-grid">
+
+    <!-- TOTAL SALAS -->
+    <div class="dash-card">
+        <div class="dash-icon">
+            <img src="{% static 'core/imgs/icon-sala.png' %}">
+        </div>
+        <div class="dash-info">
+            <h3>{{ total_salas }}</h3>
+            <p>Salas</p>
+        </div>
+    </div>
+
+    <!-- TOTAL DEVICES -->
+    <div class="dash-card">
+        <div class="dash-icon">
+            <img src="{% static 'core/imgs/icon-dashboard.png' %}">
+        </div>
+        <div class="dash-info">
+            <h3>{{ total_devices }}</h3>
+            <p>Devices</p>
+        </div>
+    </div>
+
+    <!-- OK -->
+    <div class="dash-card dash-ok">
+        <div class="dash-icon">
+            <img src="{% static 'core/imgs/icon-config.png' %}">
+        </div>
+        <div class="dash-info">
+            <h3>{{ ok }}</h3>
+            <p>Carregando</p>
+        </div>
+    </div>
+
+    <!-- ERRO -->
+    <div class="dash-card dash-erro">
+        <div class="dash-icon">
+            <img src="{% static 'core/imgs/icon-logs.png' %}">
+        </div>
+        <div class="dash-info">
+            <h3>{{ erro }}</h3>
+            <p>Com Problema</p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

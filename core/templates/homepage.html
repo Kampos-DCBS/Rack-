@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <h2 class="page-title">
+        Salas
+    </h2>
+
+    <form method="GET" class="search-box">
+        <img src="{% static 'core/imgs/icon-lupa.png' %}">
+        <input type="text" name="q" placeholder="BUSCAR SALA..." value="{{ request.GET.q }}">
+    </form>
+
+</div>
+
+<div class="grid grid-salas">
+    {% for sala in salas %}
+    <a href="{% url 'racks' sala.id %}" class="card-link">
+
+        <div class="card">
+            <div class="card-top">
+                <img src="{% static 'core/imgs/icon-sala.png' %}">
+
+                <!-- STATUS (opcional, se quiser colocar depois) -->
+                <div class="status-dot status-ok"></div>
+
+                <!-- NOME COM FAIXA BRANCA -->
+                <div class="card-overlay">
+                    {{ sala.nome }}
+                </div>
+            </div>
+        </div>
+
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

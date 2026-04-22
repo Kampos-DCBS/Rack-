@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RACK+</title>
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="{% url 'homepage' %}">
+            <img src="{% static 'core/imgs/logo.png' %}" class="logo">
+        </a>
+
+    <div class="menu">
+        <a href="{% url 'dashboard' %}">
+            <img src="{% static 'core/imgs/icon-dashboard.png' %}">
+        </a>
+
+        <a href="{% url 'movimentacoes' %}">
+            <img src="{% static 'core/imgs/icon-logs.png' %}">
+        </a>
+
+    </div>
+</div>
+
+<div class="user-top">
+    <a href="{% url 'usuarios' %}">
+        <img src="{% static 'core/imgs/icon-user.png' %}">
+    </a>
+</div>
+
+<div class="main">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

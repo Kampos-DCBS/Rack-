@@ -1,0 +1,20 @@
+from django.contrib import admin
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+
+    # LOGIN / LOGOUT
+    path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    # APP
+    path('app/', include('core.urls')),
+
+    # API
+    path('api/', include('core.api_urls')),
+]
+
+handler404 = 'core.views.erro_404'
+handler500 = 'core.views.erro_500'
