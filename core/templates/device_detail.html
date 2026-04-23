@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+    <div class="header-left">
+        <a href="{% url 'devices' rack.id %}" class="back-button">&#8592;</a>
+
+        <h2 class="page-title">
+            {{ device.nome }} <span>{{ rack.nome }}</span>
+        </h2>
+    </div>
+</div>
+
+<section class="device-hero">
+    <div class="device-preview">
+        <img src="{% static 'core/imgs/devices.png' %}" alt="{{ device.nome }}">
+    </div>
+
+    <div class="device-summary">
+        <div class="summary-row">
+            <div class="summary-chip">
+                <span class="summary-label">ID</span>
+                <strong>{{ device.id|stringformat:"06d" }}</strong>
+            </div>
+
+            <div class="battery-card">
+                <div class="battery-icon">
+                    <span class="battery-level" style="width: {{ device.bateria_percentual }}%;"></span>
+                </div>
+                <div>
+                    <span class="summary-label">Bateria</span>
+                    <strong>{{ device.bateria_percentual }}%</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-banner">
+            <span>Status:</span> {{ device.status_descricao }}
+        </div>
+
+        <div class="detail-card">
+            <h3>Informacoes do Dispositivo</h3>
+
+            <ul class="device-info-list">
+                <li><strong>Processador:</strong> {{ device.processador }}</li>
+                <li><strong>Memoria RAM:</strong> {{ device.memoria_ram }}</li>
+                <li><strong>Placa de video:</strong> {{ device.placa_video }}</li>
+                <li><strong>Duracao media da bateria:</strong> {{ device.duracao_media_bateria }}</li>
+                <li><strong>Presenca no rack:</strong> {% if device.presente %}No lugar certo{% else %}Fora do lugar{% endif %}</li>
+                <li><strong>Carregamento:</strong> {% if device.carregando %}Carregando{% else %}Nao esta carregando{% endif %}</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="detail-grid">
+    <div class="detail-card">
+        <h3>Armazenamento</h3>
+
+        <div class="storage-stats">
+            <span>{{ device.armazenamento_usado }} GB usados</span>
+            <span>{{ device.armazenamento_disponivel }} GB livres</span>
+        </div>
+
+        <div class="storage-bar" aria-label="Armazenamento utilizado">
+            <div class="storage-bar-fill" style="width: {{ device.armazenamento_percentual }}%;"></div>
+        </div>
+
+        <p class="storage-caption">
+            {{ device.armazenamento_percentual }}% de {{ device.armazenamento_total }} GB ocupados.
+        </p>
+    </div>
+
+    <div class="detail-card" id="auditoria">
+        <div class="detail-card-header">
+            <h3>Registro de Auditoria</h3>
+            <span class="inline-link">Ultimos eventos</span>
+        </div>
+
+        {% if auditoria %}
+            <div class="audit-list">
+                {% for item in auditoria %}
+                    <div class="audit-item">
+                        <strong>{{ item.get_tipo_display }}</strong>
+                        <span>{{ item.usuario.nome }}</span>
+                        <time>{{ item.data|date:"d/m/Y H:i" }}</time>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="audit-empty">Nenhum registro de auditoria para este device ainda.</p>
+        {% endif %}
+    </div>
+</section>
+
+<a href="#auditoria" class="audit-cta">Ver Registro de Auditoria</a>
+
+{% endblock %}

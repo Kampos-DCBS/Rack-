@@ -6,15 +6,11 @@
 <div class="page-header">
 
     <div class="header-left">
-
-        <a href="{% url 'racks' rack.sala.id %}" class="back-button">
-            ←
-        </a>
+        <a href="{% url 'racks' rack.sala.id %}" class="back-button">←</a>
 
         <h2 class="page-title">
             Devices <span>{{ rack.nome }}</span>
         </h2>
-
     </div>
 
     <form method="GET" class="search-box">
@@ -24,9 +20,89 @@
 
 </div>
 
-<div class="grid">
+<button class="btn-add" onclick="abrirModal('modalDevice')">
+    + Adicionar Device
+</button>
+
+<!-- MODAL -->
+<div class="modal" id="modalDevice">
+    <div class="modal-content modal-device">
+        <div class="modal-header">
+            <div>
+                <span class="modal-eyebrow">Cadastro</span>
+                <h3>Novo Device</h3>
+            </div>
+
+            <button type="button" class="modal-close" onclick="fecharModal('modalDevice')">&times;</button>
+        </div>
+
+        <form method="POST" action="{% url 'criar_device' rack.id %}" class="device-form">
+            {% csrf_token %}
+
+            <div class="form-grid">
+                <label class="form-field">
+                    <span>Nome</span>
+                    <input type="text" name="nome" placeholder="Ex.: Notebook 07" required>
+                </label>
+
+                <label class="form-field">
+                    <span>Processador</span>
+                    <input type="text" name="processador" placeholder="Ex.: Intel Core i5" required>
+                </label>
+
+                <label class="form-field">
+                    <span>Memoria RAM</span>
+                    <input type="text" name="memoria_ram" placeholder="Ex.: 8 GB DDR4">
+                </label>
+
+                <label class="form-field">
+                    <span>Placa de video</span>
+                    <input type="text" name="placa_video" placeholder="Ex.: Intel UHD Graphics">
+                </label>
+
+                <label class="form-field">
+                    <span>Bateria (%)</span>
+                    <input type="number" name="bateria_percentual" placeholder="100" min="0" max="100" value="100">
+                </label>
+
+                <label class="form-field">
+                    <span>Duracao media da bateria</span>
+                    <input type="text" name="duracao_media_bateria" placeholder="Ex.: 6 horas">
+                </label>
+            </div>
+
+            <label class="form-field">
+                <span>Status</span>
+                <input type="text" name="status_descricao" placeholder="Ex.: No lugar certo e carregando">
+            </label>
+
+            <div class="form-grid">
+                <label class="form-field">
+                    <span>Armazenamento total (GB)</span>
+                    <input type="number" name="armazenamento_total" placeholder="512" required>
+                </label>
+
+                <label class="form-field">
+                    <span>Armazenamento usado (GB)</span>
+                    <input type="number" name="armazenamento_usado" placeholder="256" required>
+                </label>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="fecharModal('modalDevice')">Cancelar</button>
+                <button type="submit" class="btn-primary">Salvar Device</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<!-- GRID -->
+<div class="grid-devices">
+
     {% for device in devices %}
-    <a href="/nao-existe/" class="card">
+
+    <a href="{% url 'detalhe_device' device.id %}" class="card card-link">
         <div class="card-top">
             <img src="{% static 'core/imgs/devices.png' %}">
 
@@ -41,7 +117,17 @@
             </div>
         </div>
     </a>
+
+    {% empty %}
+
+    <div class="empty-state">
+        <img src="{% static 'core/imgs/logo.png' %}">
+        <h3>NENHUM DEVICE</h3>
+        <p>Nao ha devices cadastrados neste rack.</p>
+    </div>
+
     {% endfor %}
+
 </div>
 
 {% endblock %}

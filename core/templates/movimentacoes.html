@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2 class="page-title">Movimentacoes</h2>
+</div>
+
+{% if mov %}
+<div class="audit-page-list">
+    {% for item in mov %}
+    <div class="audit-page-item">
+        <div>
+            <strong>{{ item.get_tipo_display }}</strong>
+            <p>{{ item.device.nome }} - {{ item.device.rack.nome }}</p>
+        </div>
+
+        <div class="audit-page-meta">
+            <span>{{ item.usuario.nome }}</span>
+            <time>{{ item.data|date:"d/m/Y H:i" }}</time>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <img src="{% static 'core/imgs/logo.png' %}">
+    <h3>NENHUMA MOVIMENTACAO</h3>
+    <p>Nao ha registros de auditoria no sistema ainda.</p>
+</div>
+{% endif %}
+
+{% endblock %}

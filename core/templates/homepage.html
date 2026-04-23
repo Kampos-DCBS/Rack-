@@ -16,6 +16,42 @@
 
 </div>
 
+<button class="btn-add" onclick="abrirModal('modalSala')">
+    + Adicionar Sala
+</button>
+
+<div class="modal" id="modalSala">
+    <div class="modal-content modal-device modal-simple">
+        <div class="modal-header">
+            <div>
+                <span class="modal-eyebrow">Cadastro</span>
+                <h3>Nova Sala</h3>
+            </div>
+
+            <button type="button" class="modal-close" onclick="fecharModal('modalSala')">&times;</button>
+        </div>
+
+        <form method="POST" action="{% url 'criar_sala' %}" class="device-form">
+            {% csrf_token %}
+
+            <label class="form-field">
+                <span>Nome da sala</span>
+                <input type="text" name="nome" placeholder="Ex.: Laboratorio 01" required>
+            </label>
+
+            <label class="form-field">
+                <span>Professor responsavel</span>
+                <input type="text" name="professor" placeholder="Ex.: Prof. Carlos">
+            </label>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="fecharModal('modalSala')">Cancelar</button>
+                <button type="submit" class="btn-primary">Salvar Sala</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="grid grid-salas">
     {% for sala in salas %}
     <a href="{% url 'racks' sala.id %}" class="card-link">
@@ -35,6 +71,12 @@
         </div>
 
     </a>
+    {% empty %}
+    <div class="empty-state">
+        <img src="{% static 'core/imgs/logo.png' %}">
+        <h3>NENHUMA SALA</h3>
+        <p>Nao ha salas cadastradas ainda.</p>
+    </div>
     {% endfor %}
 </div>
 

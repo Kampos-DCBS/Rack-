@@ -4,47 +4,75 @@
 {% block content %}
 
 <div class="page-header">
-
     <div class="header-left">
-
-        <a href="{% url 'homepage' %}" class="back-button">
-            ←
-        </a>
+        <a href="{% url 'homepage' %}" class="back-button">&#8592;</a>
 
         <h2 class="page-title">
             Sala {{ sala.nome }}
         </h2>
-
     </div>
 
     <form method="GET" class="search-box">
         <img src="{% static 'core/imgs/icon-lupa.png' %}">
         <input type="text" name="q" placeholder="BUSCAR RACK..." value="{{ request.GET.q }}">
     </form>
+</div>
 
+<button class="btn-add" onclick="abrirModal('modalRack')">
+    + Adicionar Rack
+</button>
+
+<div class="modal" id="modalRack">
+    <div class="modal-content modal-device modal-simple">
+        <div class="modal-header">
+            <div>
+                <span class="modal-eyebrow">Cadastro</span>
+                <h3>Novo Rack</h3>
+            </div>
+
+            <button type="button" class="modal-close" onclick="fecharModal('modalRack')">&times;</button>
+        </div>
+
+        <form method="POST" action="{% url 'criar_rack' sala.id %}" class="device-form">
+            {% csrf_token %}
+
+            <label class="form-field">
+                <span>Nome do rack</span>
+                <input type="text" name="nome" placeholder="Ex.: Rack principal" required>
+            </label>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="fecharModal('modalRack')">Cancelar</button>
+                <button type="submit" class="btn-primary">Salvar Rack</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <div class="grid grid-racks">
     {% for rack in racks %}
     <a href="{% url 'devices' rack.id %}" class="card">
-
         <div class="card-top">
             <img src="{% static 'core/imgs/racks.png' %}">
 
-            <!-- STATUS -->
             {% if rack.tem_erro %}
                 <div class="status-dot status-erro"></div>
             {% else %}
                 <div class="status-dot status-ok"></div>
             {% endif %}
 
-            <!-- NOME -->
             <div class="card-overlay">
                 {{ rack.nome }}
             </div>
         </div>
-
     </a>
+
+    {% empty %}
+    <div class="empty-state">
+        <img src="{% static 'core/imgs/logo.png' %}">
+        <h3>NENHUM RACK</h3>
+        <p>Nao ha racks cadastrados nesta sala.</p>
+    </div>
     {% endfor %}
 </div>
 

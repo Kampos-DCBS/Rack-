@@ -2,15 +2,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RACK+</title>
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
 </head>
+
 <body>
+
+<div class="mobile-topbar">
+    <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menu">
+        <img src="{% static 'core/imgs/icon-menu.png' %}" alt="">
+    </button>
+
+    <a href="{% url 'homepage' %}" class="mobile-brand">
+        <img src="{% static 'core/imgs/logo.png' %}" class="mobile-logo" alt="RACK+">
+    </a>
+
+    <button type="button" class="mobile-user-trigger" id="mobileUserToggle" aria-label="Abrir usuario">
+        <img src="{% static 'core/imgs/icon-user.png' %}" alt="">
+    </button>
+</div>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
 
 <div class="sidebar">
     <a href="{% url 'homepage' %}">
-            <img src="{% static 'core/imgs/logo.png' %}" class="logo">
-        </a>
+        <img src="{% static 'core/imgs/logo.png' %}" class="logo">
+    </a>
 
     <div class="menu">
         <a href="{% url 'dashboard' %}">
@@ -24,15 +42,105 @@
     </div>
 </div>
 
-<div class="user-top">
-    <a href="{% url 'usuarios' %}">
-        <img src="{% static 'core/imgs/icon-user.png' %}">
-    </a>
+<div class="user-menu">
+    <img src="{% static 'core/imgs/icon-user.png' %}" id="userIcon" alt="Usuario">
+
+    <div class="user-dropdown" id="userDropdown">
+        <p>{{ request.user.username }}</p>
+        <a href="{% url 'logout' %}">Sair</a>
+    </div>
 </div>
 
 <div class="main">
+    {% if messages %}
+        <div class="flash-stack">
+            {% for message in messages %}
+                <div class="flash-message {{ message.tags|default:'info' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     {% block content %}{% endblock %}
 </div>
 
 </body>
+
+
+<script>
+const icon = document.getElementById("userIcon");
+const dropdown = document.getElementById("userDropdown");
+const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+const mobileUserToggle = document.getElementById("mobileUserToggle");
+const mobileOverlay = document.getElementById("mobileOverlay");
+const sidebar = document.querySelector(".sidebar");
+const body = document.body;
+
+function closeMobilePanels() {
+    sidebar.classList.remove("is-open");
+    mobileOverlay.classList.remove("active");
+    body.classList.remove("menu-open");
+}
+
+// toggle user menu
+icon.onclick = (e) => {
+    e.stopPropagation();
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    mobileOverlay.classList.toggle("active", dropdown.style.display === "block" && window.innerWidth <= 768);
+};
+
+mobileUserToggle.onclick = (e) => {
+    e.stopPropagation();
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    mobileOverlay.classList.toggle("active", dropdown.style.display === "block");
+};
+
+mobileMenuToggle.onclick = (e) => {
+    e.stopPropagation();
+    sidebar.classList.toggle("is-open");
+    mobileOverlay.classList.toggle("active");
+    body.classList.toggle("menu-open");
+};
+
+// fechar ao clicar fora
+document.addEventListener("click", (e) => {
+    if (!icon.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = "none";
+        if (!sidebar.contains(e.target)) {
+            mobileOverlay.classList.remove("active");
+        }
+    }
+});
+
+mobileOverlay.addEventListener("click", () => {
+    dropdown.style.display = "none";
+    closeMobilePanels();
+});
+
+// MODAL
+function abrirModal(id) {
+    document.getElementById(id).classList.add("active");
+}
+
+function fecharModal(id) {
+    document.getElementById(id).classList.remove("active");
+}
+
+// fechar clicando fora
+window.addEventListener("click", function(e) {
+    document.querySelectorAll(".modal").forEach(modal => {
+        if (e.target === modal) {
+            modal.classList.remove("active");
+        }
+    });
+});
+
+window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) {
+        closeMobilePanels();
+        dropdown.style.display = "none";
+    }
+});
+</script>
 </html>

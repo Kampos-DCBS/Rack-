@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
+from core import views as core_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # LOGIN / LOGOUT
-    path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('', core_views.login_view, name='login'),
+    path('logout/', core_views.logout_view, name='logout'),
 
     # APP
     path('app/', include('core.urls')),
